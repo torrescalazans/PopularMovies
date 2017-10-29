@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".presentation.moviediscovery.MovieDiscoveryActivity">
+
+    <item
+        android:id="@+id/movie_discovery_settings_action_popular"
+        android:orderInCategory="1"
+        android:title="@string/movie_discovery_activity_settings_popular"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/movie_discovery_settings_action_top_rated"
+        android:orderInCategory="2"
+        android:title="@string/movie_discovery_activity_settings_top_rated"
+        app:showAsAction="never"/>
+</menu>

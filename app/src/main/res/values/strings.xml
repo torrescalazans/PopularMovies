@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- Movie Discovery activity - BEGIN -->
+    <string name="movie_discovery_activity_title_popular">Pop Movies</string>
+    <string name="movie_discovery_activity_title_top_rated">Top Rated Movies</string>
+    <string name="movie_discovery_activity_loading_error_message">
+        An error has occurred. Please check your internet connection.
+    </string>
+
+    <string name="movie_discovery_activity_settings_popular">Most popular</string>
+    <string name="movie_discovery_activity_settings_top_rated">Top rated</string>
+
+    <!-- Movie Discovery activity - END -->
+
+    <!-- Movie Details activity - BEGIN -->
+    <string name="movie_details_activity_title">Movie Details</string>
+    <string name="movie_details_activity_movie_user_rating">User rating: %1$.01f</string>
+    <string name="movie_details_activity_movie_release_date">Release date: %1$s</string>
+    <!-- Movie Details activity - END -->
+
+</resources>
