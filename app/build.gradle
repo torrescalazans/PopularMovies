@@ -24,6 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', keystoreProperties['TheMovieDBApiKey']
+    }
 }
 
 dependencies {

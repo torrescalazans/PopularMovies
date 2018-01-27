@@ -3,6 +3,8 @@ package com.torrescalazans.popularmovies.network.communication;
 import android.net.Uri;
 import android.util.Log;
 
+import com.torrescalazans.popularmovies.BuildConfig;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +23,7 @@ public class NetworkManager {
 
     private static final String THE_MOVIE_DB_STATIC_URL = "https://api.themoviedb.org/3";
     private static final String THE_MOVIE_DB_BASE_URL = THE_MOVIE_DB_STATIC_URL;
-    private static final String THE_MOVIE_DB_API_KEY = "yourTheMovieDbApiKey";
+    private static final String THE_MOVIE_DB_API_KEY = BuildConfig.THE_MOVIE_DB_API_KEY;
 
     private static final String PATH_MOST_POPULAR_MOVIES = "movie/popular";
     private static final String PATH_TOP_RATED_MOVIES = "movie/top_rated";
