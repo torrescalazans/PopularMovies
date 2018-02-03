@@ -16,7 +16,7 @@
     </string>
 
     <string name="movie_discovery_activity_empty_favorites_list_message">
-        Your \"Favorites\" list is empty.
+        Tap on the heart icon at the top of the movie details screen to add to your \"Favorites\" list.
     </string>
 
     <!-- Movie Discovery activity - END -->

@@ -81,9 +81,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 /* Sort order to return in Cursor */
                 null);
 
-        if (favoriteCursor.getCount() != 0) {
-            isFavorite = true;
-        }
+        isFavorite = favoriteCursor.getCount() != 0;
 
         populateMovieDetails();
     }
