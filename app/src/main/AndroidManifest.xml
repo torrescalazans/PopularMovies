@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".presentation.moviediscovery.MovieDiscoveryActivity"
+        <activity android:name=".presentation.main.MainActivity"
             android:label="@string/movie_discovery_activity_title_popular">
 
             <intent-filter>
@@ -25,13 +25,21 @@
 
         <activity
             android:name=".presentation.moviedetails.MovieDetailsActivity"
-            android:parentActivityName=".presentation.moviediscovery.MovieDiscoveryActivity"
+            android:parentActivityName=".presentation.main.MainActivity"
             android:label="@string/movie_details_activity_title">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.moviediscovery.MovieDiscoveryActivity" />
+                android:value=".presentation.main.MainActivity"/>
         </activity>
+
+        <service
+            android:name=".network.communication.SyncIntentService"/>
+
+        <provider
+            android:name=".database.PopularMoviesProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
 
     </application>
 

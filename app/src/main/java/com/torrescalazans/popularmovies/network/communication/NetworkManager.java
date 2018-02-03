@@ -1,6 +1,24 @@
+/*
+ * Copyright (C) 2018 Jose Torres
+ *
+ * This file is part of PopularMovies.
+ *
+ * PopularMovies is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * PopularMovies is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 package com.torrescalazans.popularmovies.network.communication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.torrescalazans.popularmovies.BuildConfig;
@@ -12,10 +30,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-/**
- * Created by jose torres on 10/22/17.
- */
 
 public class NetworkManager {
 
@@ -110,5 +124,23 @@ public class NetworkManager {
                 }
             }
         }
+    }
+
+    /**
+     * Helper method to perform a sync with The Movie DB data using an IntentService for
+     * asynchronous execution.
+     *
+     * @param context The Context used to start the IntentService for the sync.
+     */
+    public static void startSync(@NonNull final Context context,
+                                 @NonNull final NetworkResultReceiver networkResultReceiver,
+                                 @NonNull final MoviesSortOrder sortOrder) {
+
+        Intent intentToSync = new Intent(context, SyncIntentService.class);
+
+        intentToSync.putExtra("sortOrder", sortOrder);
+        intentToSync.putExtra("networkResultReceiver", networkResultReceiver);
+
+        context.startService(intentToSync);
     }
 }

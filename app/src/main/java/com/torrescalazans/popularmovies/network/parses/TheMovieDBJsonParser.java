@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2018 Jose Torres
+ *
+ * This file is part of PopularMovies.
+ *
+ * PopularMovies is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * PopularMovies is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 package com.torrescalazans.popularmovies.network.parses;
 
 import android.util.Log;
@@ -9,11 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by jose torres on 10/22/17.
- */
 
 public class TheMovieDBJsonParser {
 
@@ -44,14 +54,14 @@ public class TheMovieDBJsonParser {
     private final String MOVIE_VOTE_COUNT = "vote_count";
 
     private final String mTheMovieDBData;
-    private final List<Movie> mMoviesList;
+    private final ArrayList<Movie> mMoviesList;
 
     public TheMovieDBJsonParser(String theMovieDBData) {
         mTheMovieDBData = theMovieDBData;
         mMoviesList = new ArrayList<>();
     }
 
-    public List<Movie> parse() {
+    public ArrayList<Movie> parse() {
         Log.d(TAG, "parse: " + mTheMovieDBData);
 
         try {
@@ -69,7 +79,7 @@ public class TheMovieDBJsonParser {
                     jsonObject.getString(MOVIE_RELEASE_DATE),
                     jsonObject.getString(MOVIE_ORIGINAL_LANGUAGE),
                     jsonObject.getString(MOVIE_POSTER_PATH),
-                    populatePosterPathFullUrl(jsonObject.getString(MOVIE_POSTER_PATH)),
+                    populatePosterUrl(jsonObject.getString(MOVIE_POSTER_PATH)),
                     jsonObject.getString(MOVIE_BACKDROP_PATH),
                     jsonObject.getBoolean(MOVIE_ADULT),
                     jsonObject.getBoolean(MOVIE_VIDEO),
@@ -79,11 +89,11 @@ public class TheMovieDBJsonParser {
                     jsonObject.getInt(MOVIE_VOTE_COUNT)
                 );
 
-                populatePosterPathFullUrl(movie.getPosterPath());
+                populatePosterUrl(movie.getPosterPath());
                 mMoviesList.add(movie);
             }
 
-            for(Movie movie: mMoviesList) {
+            for (Movie movie: mMoviesList) {
                 Log.d(TAG, movie.toString());
             }
 
@@ -94,14 +104,14 @@ public class TheMovieDBJsonParser {
         return mMoviesList;
     }
 
-    private String populatePosterPathFullUrl(String posterUrl) {
-        StringBuilder posterPathFullUrl = new StringBuilder();
+    private String populatePosterUrl(String posterUrl) {
+        StringBuilder posterUrlStringBuilder = new StringBuilder();
 
-        posterPathFullUrl.append(THE_MOVIE_DB_IMAGE_BASE_URL)
+        posterUrlStringBuilder.append(THE_MOVIE_DB_IMAGE_BASE_URL)
                          .append(THE_MOVIE_DB_IMAGE_FILE_SIZE_W185)
                          .append(posterUrl);
 
-        return posterPathFullUrl.toString();
+        return posterUrlStringBuilder.toString();
     }
 
     private int[] populateGenreIds(JSONArray jsonArray) {

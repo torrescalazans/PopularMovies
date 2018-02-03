@@ -1,15 +1,26 @@
-package com.torrescalazans.popularmovies.model;
-
-import java.io.Serializable;
-import java.util.Arrays;
-
-/**
- * Created by jose torres on 10/22/17.
+/*
+ * Copyright (C) 2018 Jose Torres
+ *
+ * This file is part of PopularMovies.
+ *
+ * PopularMovies is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * PopularMovies is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  */
 
-public class Movie implements Serializable {
+package com.torrescalazans.popularmovies.model;
 
-    private static final long versionUID = 1L;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.Arrays;
+
+public class Movie implements Parcelable {
 
     private final String mId;
     private final String mTitle;
@@ -19,16 +30,16 @@ public class Movie implements Serializable {
     private final String mOriginalLanguage;
     private final String mPosterPath;
     private final String mBackdropPath;
-    private final String mPosterPathFullUrl;
+    private final String mPosterUrl;
     private final boolean mAdult;
     private final boolean mVideo;
-    private final int[] mGenreIds;
+    private int[] mGenreIds; // TODO initialize
     private final double mPopularity;
     private final double mVoteAverage;
     private final long mVoteCount;
 
     public Movie(String id, String title, String originalTitle, String overview, String releaseDate,
-                 String originalLanguage, String posterPath, String posterPathFullUrl,
+                 String originalLanguage, String posterPath, String posterUrl,
                  String backdropPath, boolean adult, boolean video, int[] genreIds, double popularity,
                  double voteAverage, long voteCount) {
         mId = id;
@@ -38,7 +49,7 @@ public class Movie implements Serializable {
         mReleaseDate = releaseDate;
         mOriginalLanguage = originalLanguage;
         mPosterPath = posterPath;
-        mPosterPathFullUrl = posterPathFullUrl;
+        mPosterUrl = posterUrl;
         mBackdropPath = backdropPath;
         mAdult = adult;
         mVideo = video;
@@ -75,8 +86,8 @@ public class Movie implements Serializable {
     public String getPosterPath() {
         return mPosterPath;
     }
-    public String getPosterPathFullUrl() {
-        return mPosterPathFullUrl;
+    public String getPosterUrl() {
+        return mPosterUrl;
     }
 
     public String getBackdropPath() {
@@ -92,7 +103,7 @@ public class Movie implements Serializable {
     }
 
     public int[] getGenreIds() {
-      return mGenreIds;
+        return mGenreIds;
     }
 
     public double getPopularity() {
@@ -118,7 +129,7 @@ public class Movie implements Serializable {
                 ", mOriginalLanguage='" + mOriginalLanguage + '\'' +
                 ", mPosterPath='" + mPosterPath + '\'' +
                 ", mBackdropPath='" + mBackdropPath + '\'' +
-                ", mPosterPathFullUrl='" + mPosterPathFullUrl + '\'' +
+                ", mPosterPathFullUrl='" + mPosterUrl + '\'' +
                 ", mAdult=" + mAdult +
                 ", mVideo=" + mVideo +
                 ", mGenreIds=" + Arrays.toString(mGenreIds) +
@@ -127,4 +138,57 @@ public class Movie implements Serializable {
                 ", mVoteCount=" + mVoteCount +
                 '}';
     }
+
+    protected Movie(Parcel in) {
+        mId = in.readString();
+        mTitle = in.readString();
+        mOriginalTitle = in.readString();
+        mOverview = in.readString();
+        mReleaseDate = in.readString();
+        mOriginalLanguage = in.readString();
+        mPosterPath = in.readString();
+        mBackdropPath = in.readString();
+        mPosterUrl = in.readString();
+        mAdult = in.readByte() != 0x00;
+        mVideo = in.readByte() != 0x00;
+        mPopularity = in.readDouble();
+        mVoteAverage = in.readDouble();
+        mVoteCount = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mTitle);
+        dest.writeString(mOriginalTitle);
+        dest.writeString(mOverview);
+        dest.writeString(mReleaseDate);
+        dest.writeString(mOriginalLanguage);
+        dest.writeString(mPosterPath);
+        dest.writeString(mBackdropPath);
+        dest.writeString(mPosterUrl);
+        dest.writeByte((byte) (mAdult ? 0x01 : 0x00));
+        dest.writeByte((byte) (mVideo ? 0x01 : 0x00));
+        dest.writeDouble(mPopularity);
+        dest.writeDouble(mVoteAverage);
+        dest.writeLong(mVoteCount);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }
