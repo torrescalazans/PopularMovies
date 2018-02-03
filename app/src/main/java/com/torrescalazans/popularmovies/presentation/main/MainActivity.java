@@ -76,29 +76,19 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_discovery);
 
-        /*
-         * The ProgressBar that will indicate to the user that we are loading data. It will be
-         * hidden when no data is loading.
-         *
-         * Please note: This so called "ProgressBar" isn't a bar by default. It is more of a
-         * circle. We didn't make the rules (or the names of Views), we just follow them.
-         */
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-
+        mConnectionErrorMessageTextView = findViewById(R.id.tv_connection_error_message);
         mEmptyFavoritesListMessageTextView = (TextView) findViewById(R.id.tv_empty_favorites_list_message);
 
         mRecyclerView = findViewById(R.id.rv_movie_discovery);
 
-        GridLayoutManager gridLayoutManager
-                = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        final int columns = getResources().getInteger(R.integer.movie_discovery_activity_gallery_columns);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, columns));
 
-        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
-
-        mConnectionErrorMessageTextView = findViewById(R.id.tv_connection_error_message);
 
         mNetworkResultReceiver = new NetworkResultReceiver(new Handler());
         mNetworkResultReceiver.setReceiver(this);

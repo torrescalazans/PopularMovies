@@ -60,8 +60,19 @@ public class SyncIntentService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        NetworkManager.MoviesSortOrder sortOrder = (NetworkManager.MoviesSortOrder) intent.getSerializableExtra("sortOrder");
-        final ResultReceiver resultReceiver = intent.getParcelableExtra("networkResultReceiver");
+        final NetworkManager.MoviesSortOrder sortOrder;
+        if ((intent != null) && (intent.hasExtra("sortOrder"))) {
+            sortOrder = (NetworkManager.MoviesSortOrder) intent.getSerializableExtra("sortOrder");
+        } else {
+            throw new UnsupportedOperationException("Missing intent extra: sortOrder");
+        }
+
+        final ResultReceiver resultReceiver;
+        if ((intent != null) && (intent.hasExtra("networkResultReceiver"))) {
+            resultReceiver = intent.getParcelableExtra("networkResultReceiver");
+        } else {
+            throw new UnsupportedOperationException("Missing intent extra: networkResultReceiver");
+        }
 
         String theMovieDBResponse = null;
 

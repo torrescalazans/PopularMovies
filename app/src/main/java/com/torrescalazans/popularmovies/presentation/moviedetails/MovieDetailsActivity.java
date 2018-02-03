@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -61,7 +60,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mMovieUserRating = findViewById(R.id.tv_movie_user_rating);
         mMovieReleaseDate = findViewById(R.id.tv_movie_release_date);
 
-        mMovie = (Movie) getIntent().getParcelableExtra("movie_data");
+        if ((getIntent() != null) && getIntent().hasExtra("movie_data")) {
+            mMovie = (Movie) getIntent().getParcelableExtra("movie_data");
+        } else {
+            throw new UnsupportedOperationException("Missing intent extra: movie_data");
+        }
 
         /* Perform the ContentProvider query */
         String movieId = mMovie.getId();
