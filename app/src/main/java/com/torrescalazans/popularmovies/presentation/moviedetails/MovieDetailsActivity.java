@@ -17,11 +17,13 @@ package com.torrescalazans.popularmovies.presentation.moviedetails;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +75,11 @@ public class MovieDetailsActivity extends AppCompatActivity
 
     private NetworkResultReceiver mNetworkResultReceiver;
 
+    private int[] mScrollViewSavedPosition;
+    private Parcelable mTrailersListSavedState;
+    private Parcelable mReviewsListSavedState;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
@@ -87,6 +94,40 @@ public class MovieDetailsActivity extends AppCompatActivity
         populateMovieDetails();
         populateMovieTrailers();
         populateMovieReviews();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putIntArray("scroll_position",
+                new int[]{ mMovieDetaislBinding.svMovieDetails.getScrollX(),
+                        mMovieDetaislBinding.svMovieDetails.getScrollY()});
+
+        outState.putParcelable("trailers_list_state",
+                mMovieDetaislBinding.trailersList.rvTrailersList.getLayoutManager().onSaveInstanceState());
+
+        outState.putParcelable("reviews_list_state",
+                mMovieDetaislBinding.reviewsList.rvReviewsList.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getParcelable("trailers_list_state") != null) {
+                mTrailersListSavedState = savedInstanceState.getParcelable("trailers_list_state");
+            }
+
+            if (savedInstanceState.getParcelable("reviews_list_state") != null) {
+                mReviewsListSavedState = savedInstanceState.getParcelable("reviews_list_state");
+            }
+
+            if (savedInstanceState.getIntArray("scroll_position") != null) {
+                mScrollViewSavedPosition= savedInstanceState.getIntArray("scroll_position");
+            }
+        }
     }
 
     private void populateMovieDetails() {
@@ -260,6 +301,16 @@ public class MovieDetailsActivity extends AppCompatActivity
             case STATUS_RUNNING:
                 Log.d(TAG, "onReceiveResult - resultCode: STATUS_RUNNING");
 
+                if (mScrollViewSavedPosition != null) {
+                    mMovieDetaislBinding.svMovieDetails.post(new Runnable() {
+                        public void run() {
+                            mMovieDetaislBinding.svMovieDetails.scrollTo(mScrollViewSavedPosition[0],
+                                    mScrollViewSavedPosition[1] +
+                                            Resources.getSystem().getDisplayMetrics().widthPixels / 4);
+                        }
+                    });
+                }
+
                 // TODO add loading indicator inside trailers list view
                 break;
 
@@ -268,6 +319,11 @@ public class MovieDetailsActivity extends AppCompatActivity
 
                 mTrailerArrayList = resultData.getParcelableArrayList("trailers_list");
                 mTrailerAdapter.updateData(mTrailerArrayList);
+
+                if (mTrailersListSavedState != null) {
+                    mMovieDetaislBinding.trailersList.rvTrailersList.getLayoutManager().
+                            onRestoreInstanceState(mTrailersListSavedState);
+                }
                 break;
 
             case STATUS_REVIEWS_FINISHED:
@@ -275,6 +331,11 @@ public class MovieDetailsActivity extends AppCompatActivity
 
                 mReviewsArrayList = resultData.getParcelableArrayList("reviews_list");
                 mReviewAdapter.updateData(mReviewsArrayList);
+
+                if (mReviewsListSavedState != null) {
+                    mMovieDetaislBinding.reviewsList.rvReviewsList.getLayoutManager().
+                            onRestoreInstanceState(mReviewsListSavedState);
+                }
                 break;
 
             case STATUS_ERROR:

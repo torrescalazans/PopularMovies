@@ -21,6 +21,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -58,12 +59,20 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final int DISPLAY_MODE_MOST_POPULAR = 0;
+    private static final int DISPLAY_MODE_TOP_RATED = 1;
+    private static final int DISPLAY_MODE_FAVORITES = 2;
+
     private ActivityMainBinding mMainBinding;
     private MovieAdapter mMovieAdapter;
 
     private static final int ID_FAVORITES_LOADER = 0;
 
     private NetworkResultReceiver mNetworkResultReceiver;
+
+    private int mCurrentDisplayMode;
+    private Parcelable recyclerViewState;
+    private GridLayoutManager mGridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         final int columns = getResources().getInteger(R.integer.main_activity_columns);
-        mMainBinding.rvMoviesList.setLayoutManager(new GridLayoutManager(this, columns));
+        mGridLayoutManager = new GridLayoutManager(this, columns);
+        mMainBinding.rvMoviesList.setLayoutManager(mGridLayoutManager);
 
         mMainBinding.rvMoviesList.setHasFixedSize(true);
 
@@ -84,8 +94,74 @@ public class MainActivity extends AppCompatActivity implements
         mNetworkResultReceiver = new NetworkResultReceiver(new Handler());
         mNetworkResultReceiver.setReceiver(this);
 
+        if ((savedInstanceState != null)
+                && (savedInstanceState.getSerializable("current_display_mode") != null)) {
+            mCurrentDisplayMode = savedInstanceState.getInt("current_display_mode");
+
+            switch (mCurrentDisplayMode) {
+                case DISPLAY_MODE_MOST_POPULAR:
+                    loadMostPopularData();
+                    break;
+
+                case DISPLAY_MODE_TOP_RATED:
+                    loadTopRatedData();
+                    break;
+
+                case DISPLAY_MODE_FAVORITES:
+                    loadFavoritesData();
+                    break;
+            }
+        } else {
+            loadMostPopularData();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("current_display_mode", mCurrentDisplayMode);
+        outState.putParcelable("grid_layout_manager_state", mGridLayoutManager.onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if ((savedInstanceState != null)
+                && (savedInstanceState.getParcelable("grid_layout_manager_state") != null)) {
+            recyclerViewState = savedInstanceState.getParcelable("grid_layout_manager_state");
+        }
+    }
+
+    private void loadMostPopularData() {
+        setTitle(R.string.movie_discovery_activity_title_popular);
+
         NetworkManager.startSync(this, mNetworkResultReceiver,
                 RequestType.MOST_POPULAR, 0);
+
+        mCurrentDisplayMode = DISPLAY_MODE_MOST_POPULAR;
+    }
+
+    private void loadTopRatedData() {
+        setTitle(R.string.movie_discovery_activity_title_top_rated);
+
+        NetworkManager.startSync(this, mNetworkResultReceiver,
+                RequestType.TOP_RATED, 0);
+
+        mCurrentDisplayMode = DISPLAY_MODE_TOP_RATED;
+    }
+
+    private void loadFavoritesData() {
+        setTitle(R.string.movie_discovery_activity_title_favorites);
+
+        /*
+         Ensure a loader is initialized and active. If the loader doesn't already exist, one is
+         created, otherwise the last created loader is re-used.
+         */
+        getSupportLoaderManager().initLoader(ID_FAVORITES_LOADER, null, this);
+
+        mCurrentDisplayMode = DISPLAY_MODE_FAVORITES;
     }
 
     /**
@@ -96,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements
      * each view is currently visible or invisible.
      */
     private void showMoviesDataView() {
+
+        if (recyclerViewState != null) {
+            mGridLayoutManager.onRestoreInstanceState(recyclerViewState);
+        }
 
         /* Then, hide the movies data */
         mMainBinding.tvConnectionErrorMessage.setVisibility(View.INVISIBLE);
@@ -173,38 +253,21 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.movie_discovery_settings_action_popular) {
             Log.d(TAG, "onOptionsItemSelected - Most popular");
 
-            setTitle(R.string.movie_discovery_activity_title_popular);
-
-            mMovieAdapter.updateData(null);
-            NetworkManager.startSync(this, mNetworkResultReceiver,
-                    RequestType.MOST_POPULAR, 0);
-
+            loadMostPopularData();
             return true;
         }
 
         if (id == R.id.movie_discovery_settings_action_top_rated) {
             Log.d(TAG, "onOptionsItemSelected - Top rated");
 
-            setTitle(R.string.movie_discovery_activity_title_top_rated);
-
-            mMovieAdapter.updateData(null);
-            NetworkManager.startSync(this, mNetworkResultReceiver,
-                    RequestType.TOP_RATED, 0);
-
+            loadTopRatedData();
             return true;
         }
 
         if (id == R.id.movie_discovery_settings_action_favorites) {
             Log.d(TAG, "onOptionsItemSelected - Favorites");
 
-            setTitle(R.string.movie_discovery_activity_title_favorites);
-
-            /*
-             Ensure a loader is initialized and active. If the loader doesn't already exist, one is
-             created, otherwise the last created loader is re-used.
-             */
-            getSupportLoaderManager().initLoader(ID_FAVORITES_LOADER, null, this);
-
+            loadFavoritesData();
             return true;
         }
 
@@ -237,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements
                 Log.d(TAG, "onReceiveResult - resultCode: " + resultCode);
 
                 ArrayList<Movie> moviesList = resultData.getParcelableArrayList("movies_list");
+                mMovieAdapter.updateData(null);
                 mMovieAdapter.updateData(moviesList);
 
                 showMoviesDataView();
