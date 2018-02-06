@@ -1,4 +1,3 @@
-The Movie DB API_KEY
+### The Movie DB API key
 
-Replace the yourTheMovieDbApiKey for your actual api key at:
-com.torrescalazans.popularmovies.network.communication.NetworkManager.THE_MOVIE_DB_API_KEY
+Replace the TheMovieDBApiKey key value by your api key in the keystore.properties file.
