@@ -17,6 +17,7 @@ package com.torrescalazans.popularmovies.presentation.main;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,19 +27,17 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CursorAdapter;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.torrescalazans.popularmovies.R;
 import com.torrescalazans.popularmovies.database.DatabaseUtils;
 import com.torrescalazans.popularmovies.database.PopularMoviesContract;
+import com.torrescalazans.popularmovies.databinding.ActivityMainBinding;
 import com.torrescalazans.popularmovies.model.Movie;
 import com.torrescalazans.popularmovies.network.communication.NetworkManager;
 import com.torrescalazans.popularmovies.network.communication.NetworkResultReceiver;
@@ -46,10 +45,11 @@ import com.torrescalazans.popularmovies.presentation.moviedetails.MovieDetailsAc
 
 import java.util.ArrayList;
 
-import static com.torrescalazans.popularmovies.network.communication.NetworkManager.MoviesSortOrder;
-import static com.torrescalazans.popularmovies.network.communication.SyncIntentService.STATUS_ERROR;
-import static com.torrescalazans.popularmovies.network.communication.SyncIntentService.STATUS_FINISHED;
-import static com.torrescalazans.popularmovies.network.communication.SyncIntentService.STATUS_RUNNING;
+import static com.torrescalazans.popularmovies.network.communication.NetworkManager.RequestType;
+import static com.torrescalazans.popularmovies.network.communication.NetworkRequestIntentService.STATUS_ERROR;
+import static com.torrescalazans.popularmovies.network.communication.NetworkRequestIntentService.STATUS_MOST_POPULAR_FINISHED;
+import static com.torrescalazans.popularmovies.network.communication.NetworkRequestIntentService.STATUS_RUNNING;
+import static com.torrescalazans.popularmovies.network.communication.NetworkRequestIntentService.STATUS_TOP_RATED_FINISHED;
 
 public class MainActivity extends AppCompatActivity implements
         MovieAdapter.MovieAdapterOnClickHandler,
@@ -58,42 +58,34 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private ProgressBar mLoadingIndicator;
-    private TextView mConnectionErrorMessageTextView;
-    private TextView mEmptyFavoritesListMessageTextView;
-
-    private RecyclerView mRecyclerView;
+    private ActivityMainBinding mMainBinding;
     private MovieAdapter mMovieAdapter;
 
     private static final int ID_FAVORITES_LOADER = 0;
 
-    NetworkResultReceiver mNetworkResultReceiver;
+    private NetworkResultReceiver mNetworkResultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_discovery);
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mConnectionErrorMessageTextView = findViewById(R.id.tv_connection_error_message);
-        mEmptyFavoritesListMessageTextView = (TextView) findViewById(R.id.tv_empty_favorites_list_message);
+        mMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.rv_movie_discovery);
+        final int columns = getResources().getInteger(R.integer.main_activity_columns);
+        mMainBinding.rvMoviesList.setLayoutManager(new GridLayoutManager(this, columns));
 
-        final int columns = getResources().getInteger(R.integer.movie_discovery_activity_gallery_columns);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, columns));
-
-        mRecyclerView.setHasFixedSize(true);
+        mMainBinding.rvMoviesList.setHasFixedSize(true);
 
         mMovieAdapter = new MovieAdapter(this);
-        mRecyclerView.setAdapter(mMovieAdapter);
+        mMainBinding.rvMoviesList.setAdapter(mMovieAdapter);
 
         mNetworkResultReceiver = new NetworkResultReceiver(new Handler());
         mNetworkResultReceiver.setReceiver(this);
 
-        NetworkManager.startSync(this, mNetworkResultReceiver, MoviesSortOrder.MOST_POPULAR);
+        NetworkManager.startSync(this, mNetworkResultReceiver,
+                RequestType.MOST_POPULAR, 0);
     }
 
     /**
@@ -106,16 +98,16 @@ public class MainActivity extends AppCompatActivity implements
     private void showMoviesDataView() {
 
         /* Then, hide the movies data */
-        mConnectionErrorMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvConnectionErrorMessage.setVisibility(View.INVISIBLE);
 
         /* Then, hide the empty favorites list message */
-        mEmptyFavoritesListMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvEmptyFavoritesListMessage.setVisibility(View.INVISIBLE);
 
         /* Finally, make sure the movies data is visible */
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mMainBinding.rvMoviesList.setVisibility(View.VISIBLE);
 
         /* First, hide the loading indicator */
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -128,38 +120,38 @@ public class MainActivity extends AppCompatActivity implements
     private void showLoadingIndicator() {
 
         /* Then, hide the movies data */
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMoviesList.setVisibility(View.INVISIBLE);
 
         /* Then, hide the movies data */
-        mConnectionErrorMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvConnectionErrorMessage.setVisibility(View.INVISIBLE);
 
         /* Then, hide the empty favorites list message */
-        mEmptyFavoritesListMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvEmptyFavoritesListMessage.setVisibility(View.INVISIBLE);
 
         /* Finally, show the loading indicator */
-        mLoadingIndicator.setVisibility(View.VISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private void showConnectionErrorMessage() {
-        mEmptyFavoritesListMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvEmptyFavoritesListMessage.setVisibility(View.INVISIBLE);
 
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMoviesList.setVisibility(View.INVISIBLE);
 
         /* First, hide the loading indicator */
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
 
-        mConnectionErrorMessageTextView.setVisibility(View.VISIBLE);
+        mMainBinding.tvConnectionErrorMessage.setVisibility(View.VISIBLE);
     }
 
     private void showEmptyFavoritesListMessage() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMoviesList.setVisibility(View.INVISIBLE);
 
         /* First, hide the loading indicator */
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
 
-        mConnectionErrorMessageTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvConnectionErrorMessage.setVisibility(View.INVISIBLE);
 
-        mEmptyFavoritesListMessageTextView.setVisibility(View.VISIBLE);
+        mMainBinding.tvEmptyFavoritesListMessage.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -184,7 +176,8 @@ public class MainActivity extends AppCompatActivity implements
             setTitle(R.string.movie_discovery_activity_title_popular);
 
             mMovieAdapter.updateData(null);
-            NetworkManager.startSync(this, mNetworkResultReceiver, MoviesSortOrder.MOST_POPULAR);
+            NetworkManager.startSync(this, mNetworkResultReceiver,
+                    RequestType.MOST_POPULAR, 0);
 
             return true;
         }
@@ -195,7 +188,8 @@ public class MainActivity extends AppCompatActivity implements
             setTitle(R.string.movie_discovery_activity_title_top_rated);
 
             mMovieAdapter.updateData(null);
-            NetworkManager.startSync(this, mNetworkResultReceiver, MoviesSortOrder.TOP_RATED);
+            NetworkManager.startSync(this, mNetworkResultReceiver,
+                    RequestType.TOP_RATED, 0);
 
             return true;
         }
@@ -238,12 +232,11 @@ public class MainActivity extends AppCompatActivity implements
                 showLoadingIndicator();
                 break;
 
-            case STATUS_FINISHED:
-                Log.d(TAG, "onReceiveResult - resultCode: STATUS_FINISHED");
+            case STATUS_MOST_POPULAR_FINISHED:
+            case STATUS_TOP_RATED_FINISHED:
+                Log.d(TAG, "onReceiveResult - resultCode: " + resultCode);
 
-                showMoviesDataView();
-
-                ArrayList<Movie> moviesList = resultData.getParcelableArrayList("moviesList");
+                ArrayList<Movie> moviesList = resultData.getParcelableArrayList("movies_list");
                 mMovieAdapter.updateData(moviesList);
 
                 showMoviesDataView();

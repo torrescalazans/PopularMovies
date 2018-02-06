@@ -16,7 +16,6 @@
 package com.torrescalazans.popularmovies.presentation.main;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ import java.util.List;
 
 /**
  * {@link MovieAdapter} exposes a list of favorites
- * from a {@link Cursor} to a {@link RecyclerView}.
+ * from a {@link java.util.ArrayList} to a {@link RecyclerView}.
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
@@ -97,42 +96,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         return new MovieAdapterViewHolder(view);
     }
 
-//    @Override
-//    public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position) {
-//        Context context = movieAdapterViewHolder.mMovieImageView.getContext();
-//
-//        // get to the right location in the cursor
-//        mCursor.moveToPosition(position);
-//
-//        final int movieIdIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_ID);
-//        final int movieTitleIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_TITLE);
-//        final int movieOriginalTitleIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_ORIGINAL_TITLE);
-//        final int movieOverviewIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_OVERVIEW);
-//        final int movieReleaseDateIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_RELEASE_DATE);
-//        final int movieOriginalLanguageIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_ORIGINAL_LANGUAGE);
-//        final int moviePosterPathIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_POSTER_PATH);
-//        final int movieBackdropPathIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_BACKDROP_PATH);
-//        final int moviePosterUrlIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_POSTER_URL);
-//        final int movieAdultIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_ADULT);
-//        final int movieVideoIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_VIDEO);
-//        final int movieGenreIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_GENRE_IDS);
-//        final int moviePopularityIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_POPULARITY);
-//        final int movieVoteAverageIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_VOTE_AVERAGE);
-//        final int movieVoteCountIndex = mCursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_VOTE_COUNT);
-//
-//        // Determine the values of the wanted data
-//        final String movieId = mCursor.getString(movieIdIndex);
-//        final String movieTitle = mCursor.getString(movieTitleIndex);
-//        final String movieOriginalTitle = mCursor.getString(movieOriginalTitleIndex);
-//
-//        final String moviePosterUrl = mCursor.getString(moviePosterUrlIndex);
-//
-//        Picasso.with(context).load(moviePosterUrl)
-//                .error(R.drawable.placeholder)
-//                .placeholder(R.drawable.placeholder)
-//                .into(movieAdapterViewHolder.mMovieImageView);
-//    }
-
+    @Override
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position) {
         Context context = movieAdapterViewHolder.mMovieImageView.getContext();
         Movie movie = mMoviesList.get(position);

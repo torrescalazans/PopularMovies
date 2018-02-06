@@ -39,31 +39,60 @@ public class NetworkManager {
     private static final String THE_MOVIE_DB_BASE_URL = THE_MOVIE_DB_STATIC_URL;
     private static final String THE_MOVIE_DB_API_KEY = BuildConfig.THE_MOVIE_DB_API_KEY;
 
-    private static final String PATH_MOST_POPULAR_MOVIES = "movie/popular";
-    private static final String PATH_TOP_RATED_MOVIES = "movie/top_rated";
+    private static final String PATH_MOVIES = "movie";
+    private static final String PATH_MOST_POPULAR = "popular";
+    private static final String PATH_TOP_RATED = "top_rated";
+    private static final String PATH_VIDEOS = "videos";
+    private static final String PATH_REVIEWS = "reviews";
 
     private static final String PARAM_THE_MOVIE_DB_API_KEY = "api_key";
 
-    public enum MoviesSortOrder {
+    //https://api.themoviedb.org/3/movie/346364/videos?api_key=1a2684b35167e4b6e08e7fc38de473c6
+
+    public enum RequestType {
         DEFAULT,
         MOST_POPULAR,
-        TOP_RATED
+        TOP_RATED,
+        VIDEOS,
+        REVIEWS
     }
 
-    public static URL buildUrl(MoviesSortOrder selectedSortOrder) {
-        String sortOrder = PATH_MOST_POPULAR_MOVIES;
+    // TODO How to pass the movie id until this level?
+    public static URL buildUrl(RequestType requestType, int movieId) {
+        String request = PATH_MOST_POPULAR;
 
-        if (selectedSortOrder == MoviesSortOrder.DEFAULT
-                || selectedSortOrder == MoviesSortOrder.MOST_POPULAR) {
-            sortOrder = PATH_MOST_POPULAR_MOVIES;
-        } else if (selectedSortOrder == MoviesSortOrder.TOP_RATED) {
-            sortOrder = PATH_TOP_RATED_MOVIES;
+        Uri builtUri = null;
+
+        if (requestType == RequestType.DEFAULT
+                || requestType == RequestType.MOST_POPULAR) {
+
+            builtUri = Uri.parse(THE_MOVIE_DB_BASE_URL).buildUpon()
+                    .appendEncodedPath(PATH_MOVIES)
+                    .appendEncodedPath(PATH_MOST_POPULAR)
+                    .appendQueryParameter(PARAM_THE_MOVIE_DB_API_KEY, THE_MOVIE_DB_API_KEY)
+                    .build();
+
+        } else if (requestType == RequestType.TOP_RATED) {
+            builtUri = Uri.parse(THE_MOVIE_DB_BASE_URL).buildUpon()
+                    .appendEncodedPath(PATH_MOVIES)
+                    .appendEncodedPath(PATH_TOP_RATED)
+                    .appendQueryParameter(PARAM_THE_MOVIE_DB_API_KEY, THE_MOVIE_DB_API_KEY)
+                    .build();
+        } else if (requestType == RequestType.VIDEOS) {
+            builtUri = Uri.parse(THE_MOVIE_DB_BASE_URL).buildUpon()
+                    .appendEncodedPath(PATH_MOVIES)
+                    .appendEncodedPath(String.valueOf(movieId))
+                    .appendEncodedPath(PATH_VIDEOS)
+                    .appendQueryParameter(PARAM_THE_MOVIE_DB_API_KEY, THE_MOVIE_DB_API_KEY)
+                    .build();
+        } else if (requestType == RequestType.REVIEWS) {
+            builtUri = Uri.parse(THE_MOVIE_DB_BASE_URL).buildUpon()
+                    .appendEncodedPath(PATH_MOVIES)
+                    .appendEncodedPath(String.valueOf(movieId))
+                    .appendEncodedPath(PATH_REVIEWS)
+                    .appendQueryParameter(PARAM_THE_MOVIE_DB_API_KEY, THE_MOVIE_DB_API_KEY)
+                    .build();
         }
-
-        Uri builtUri = Uri.parse(THE_MOVIE_DB_BASE_URL).buildUpon()
-                .appendEncodedPath(sortOrder)
-                .appendQueryParameter(PARAM_THE_MOVIE_DB_API_KEY, THE_MOVIE_DB_API_KEY)
-                .build();
 
         URL url = null;
         try {
@@ -134,12 +163,17 @@ public class NetworkManager {
      */
     public static void startSync(@NonNull final Context context,
                                  @NonNull final NetworkResultReceiver networkResultReceiver,
-                                 @NonNull final MoviesSortOrder sortOrder) {
+                                 @NonNull final RequestType requestType,
+                                 final int movieId) {
 
-        Intent intentToSync = new Intent(context, SyncIntentService.class);
+        Intent intentToSync = new Intent(context, NetworkRequestIntentService.class);
 
-        intentToSync.putExtra("sortOrder", sortOrder);
-        intentToSync.putExtra("networkResultReceiver", networkResultReceiver);
+        intentToSync.putExtra("request_type", requestType);
+        intentToSync.putExtra("network_result_receiver", networkResultReceiver);
+
+        if (movieId != 0) {
+            intentToSync.putExtra("movie_id", movieId);
+        }
 
         context.startService(intentToSync);
     }

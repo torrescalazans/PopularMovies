@@ -25,7 +25,7 @@ public class DatabaseUtils {
 
     public static ArrayList<Movie> arrayListFromCursor(Cursor cursor) {
 
-        ArrayList<Movie> moviesList = new ArrayList<Movie>();
+        ArrayList<Movie> moviesList = new ArrayList<>();
 
         final int movieIdIndex = cursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_ID);
         final int movieTitleIndex = cursor.getColumnIndex(PopularMoviesContract.FavoriteEntry.COLUMN_NAME_MOVIE_TITLE);

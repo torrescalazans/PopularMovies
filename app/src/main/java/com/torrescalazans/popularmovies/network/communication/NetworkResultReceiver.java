@@ -45,7 +45,7 @@ public class NetworkResultReceiver extends ResultReceiver {
         }
     }
 
-    public static interface Receiver {
+    public interface Receiver {
         void onReceiveResult(int resultCode, Bundle resultData);
     }
 }

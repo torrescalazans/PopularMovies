@@ -18,19 +18,17 @@
     <string name="movie_discovery_activity_empty_favorites_list_message">
         Tap on the heart icon at the top of the movie details screen to add to your \"Favorites\" list.
     </string>
-
     <!-- Movie Discovery activity - END -->
 
     <!-- Movie Details activity - BEGIN -->
     <string name="movie_details_activity_title">Movie Details</string>
-    <string name="movie_details_activity_movie_user_rating">User rating: %1$.01f</string>
-    <string name="movie_details_activity_movie_release_date">Release date: %1$s</string>
+    <string name="movie_details_activity_movie_vote_average">%1$.01f/10</string>
     <!-- Movie Details activity - END -->
 
     <!-- PopularMovies content provider authority -->
     <string name="content_authority" translatable="false">com.torrescalazans.popularmovies</string>
 
-    <string name="movie_details_activity_added_as_favorites_list">Movie added to your \"Favorites\" list.</string>
-    <string name="movie_details_activity_removed_from_favorites_list">Movie removed from your \"Favorites\" list.</string>
+    <string name="movie_details_activity_added_as_favorites_list">Added to your \"Favorites\" list.</string>
+    <string name="movie_details_activity_removed_from_favorites_list">Removed from your \"Favorites\" list.</string>
 
 </resources>

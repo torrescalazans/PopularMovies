@@ -34,7 +34,7 @@
         </activity>
 
         <service
-            android:name=".network.communication.SyncIntentService"/>
+            android:name=".network.communication.NetworkRequestIntentService"/>
 
         <provider
             android:name=".database.PopularMoviesProvider"

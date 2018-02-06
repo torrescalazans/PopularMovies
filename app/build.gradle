@@ -32,6 +32,21 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', keystoreProperties['TheMovieDBApiKey']
     }
+
+    dataBinding.enabled = true
+
+    sourceSets {
+        main {
+            res.srcDirs =
+                [
+                    'src/main/res/layout/activities/movie-details',
+                    'src/main/res/layout/activities/main',
+                    'src/main/res/layout/activities',
+                    'src/main/res/layout',
+                    'src/main/res'
+                ]
+        }
+    }
 }
 
 dependencies {
@@ -43,5 +58,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

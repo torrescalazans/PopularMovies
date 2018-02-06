@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/trailer_list_item_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/trailer_list_item_touch_selector"
+        android:minHeight="?android:attr/listPreferredItemHeight">
+
+        <ImageView
+            android:id="@+id/iv_trailer_play_icon"
+            android:layout_width="@dimen/trailer_item_list_play_icon"
+            android:layout_height="@dimen/trailer_item_list_play_icon"
+            android:src="@drawable/ic_play_arrow_black_48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_play_arrow_black_48dp"/>
+
+        <TextView
+            android:id="@+id/tv_trailer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/trailer_item_list_margin_horizontal"
+            android:layout_marginLeft="@dimen/trailer_item_list_margin_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimaryText"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintStart_toEndOf="@+id/iv_trailer_play_icon"
+            tools:text="Offical trailer"/>
+
+        <TextView
+            android:id="@+id/tv_trailer_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/trailer_item_list_margin_horizontal"
+            android:layout_marginLeft="@dimen/trailer_item_list_margin_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toEndOf="@+id/iv_trailer_play_icon"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text="YouTube"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

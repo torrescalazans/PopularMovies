@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">8dp</dimen>
-    <dimen name="activity_vertical_margin">8dp</dimen>
 
-    <integer name="movie_discovery_activity_gallery_columns">2</integer>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <integer name="main_activity_columns">2</integer>
+
+    <dimen name="activity_margin_top">16dp</dimen>
+    <dimen name="activity_margin_horizontal">16dp</dimen>
+    <dimen name="activity_margin_vertical">16dp</dimen>
+    <dimen name="activity_margin_bottom">16dp</dimen>
+
+    <dimen name="activity_line_separator_height">2dp</dimen>
+
+    <dimen name="trailer_item_list_margin_horizontal">4dp</dimen>
+
+    <dimen name="movie_title_background_height">120dp</dimen>
+    <dimen name="movie_title_elevation_height">8dp</dimen>
+    <dimen name="movie_poster_width">190dp</dimen>
+
+    <!-- Icon Sizes -->
+    <dimen name="loading_indicator_icon">48dp</dimen>
+    <dimen name="trailer_item_list_play_icon">48dp</dimen>
+
 </resources>

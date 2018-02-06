@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/review_list_item_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_top"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Author: Frank Ochieng"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_top"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_author"
+            tools:text="Something certainly rings true in the horror thriller **It** that capitalizes on that common known fear that clowns are creepy annoyances to those that have an intense phobia towards them. In the case of **It’s** dastardly powder-faced joyboy or shall we say corrosive killjoy Pennywise the Dancing Clown, he definitely takes the cake in terms of his treacherous tendencies to quiet the unsuspecting kiddies in devious fashion. Here is a tip, parents, do not invite the poisonous Pennywise to your kids’ birthday party any time soon to blow up balloons and sing songs. This is just a friendly little warning. There is more to elaborate on regarding the sicko circus funnypants freak later.\r\n\r\nDirector Andy Muschietti (‘Mama’) delves into this surprisingly delicious twisted and terrorizing tale of a killer clown that gets his jollies off snuffing the lives out of rural-based youngsters in this calculating frightfest that pushes all the right buttons of panic and perversion. Skilfully edgy and traumatically tasty, **It** is a refreshing throwback to old-fashioned gory-minded gems where the boundaries of old-fashioned scare tactics were designed not only by the actual act of homicidal happenings but the mere suggestive nature of the heinous hedonism taking place. Polished and gripping in its shadowy and shifty overtones, **It** is convincingly probing as an absorbing psychological character study with an off-kilter sense of defiance in its naughty commentary on youthful innocence being compromised.\r\n\r\nBased on the novel from famed hair-raising author Stephen King, **It** delivers the solid, sordid goods of a wild and wicked imagination following the acidic exploits of a menacing clown in the aforementioned Pennywise (played with penetrating  and devilish aplomb by Bill Skarsgard from ‘Atomic Blonde’) whose murderous methods of slaughtering the young has been a staple signature in his madness for centuries now. The surviving tykes in the quaint town of Derry, Maine must now safeguard themselves from the makeup-wearing whackjob and figure out a way to terminate the baggy-panted beast before he continues to strike again and victimize another doomed child.\r\n\r\nThe backstory behind Pennywise’s existence is that he is some shape-shifting demon that emerges from the sewers only to target the unlucky rugrat in his immediate path while conniving, and conducting his blood-thirsty ways. However, there are a group of children that refuse to play dead for the demented clown and the quest to create an ill-advised showdown with the deplorable Pennywise would prove to be a very violent and mentally scarring experience in the process.\r\n\r\nThe story centres around young Bill (Jaeden Lieberher, ‘Allegiant’) and his early encounter with the sadness of unknowingly witnessing Pennywise’s wrath as it was inferred that the clown had to do with the demise of his precious little brother, George (Jackson Robert Scott), who never returned after enthusiastically wanting to work on a fun project in the basement. This haunting revelation sticks with poor Bill until this very day.\r\n\r\nNowadays, Bill must cope with the typical obstacles at school avoiding bullies and dealing with the pitfalls of peer pressure and needing to belong to a group of trusty associates. Thus, Bill is able to cement close relationships with the town’s other free-spirited youngsters. Still, there is that hovering myth about the mysterious sewers and, yes, the evil-minded Pennywise is at the forefront of fearful concern for Bill and the bunch. In fact, the gang will succumb to their collection of fears, paranoia and hesitation as the suburban legend of the creep-seeking clown clouds each of the kids’ tainted psyches.\r\n\r\nThe ensemble of young actors in **It**  all register accordingly with their characters’ childhood shock in trying to overcome the overwhelming and petrifying mindset that has invaded their sensibilities. Lieberher has an authentic raw turn as the lead lad invested in the bizarre boundaries of matching wits with the demonic chalk-skinned trickster and his committed craziness. The other supporting cast of exposed kiddies on this adventurous train wreck of terror includes Sophia Lillis (’37’), Finn Wolfhard (from television’s ‘Stranger Things’), Jeremy Ray Taylor (‘Alvin And The Chipmunks: The Road Chip’), Wyatt Oleff (‘Guardians Of The Galaxy”), Chosen Jacobs, Jack Dylan Grazer (‘Tales Of Halloween’) and Nicholas Hamilton (‘Captain Fantastic’).\r\n\r\nThere is no doubt that Skarsgard’s clown of corrosion in Pennywise steals the show with his nefarious nature blistering shamelessly in seedy-minded elation. Clearly, Skarsgard chews the tarnished scenery with his abominable costumed cretin tip toeing on the unassuming sidelines while striking gory goosebump moments for his pubescent prey on screen and the twitchy audience off screen.\r\n\r\nSure, **It** suffers from the conventional trappings of cheesy false alarm jolts and the obligatory lurking in the dark sequences are arbitrarily tossed in as an aftermath for the legitimate lunacy of our star-making crazed and corruptible clown to perform his showboating insanity. Besides, what horror showcase has not welcomed the invitation of the overused and abused jump-scare techniques highlighted by a jittery soundtrack? Still, Muschietti and screenwriters Chase Palmer, Cary Joji Funkunga and Gary Dauberman manage to supply the infectious and insidious **It** with well-executed scary shenanigans, well-paced anxiety, wavering vulnerability and decent acting on behalf of the performers that aptly brought to life the eerie visions and vitality of King’s complex, creative mind.\r\n\r\nTruly **It** is one of the best harrowing and in-depth horror/psychological thrillers to emerge in 2017. Also this titillating tale of cautionary kiddie chaos may be one of King’s formidable movie adaptions since the effective tension-filled, off-the-wall brilliance of 1990’s _Misery_.    \r\n\r\n**It** (2017)\r\n\r\nWarner Bros. Pictures and New Line Cinema\r\n\r\n1 hour 35 minutes\r\n\r\nCAST: Bill Skarsgard, Jaeden Lieberher, Sophia Lillis, Finn Wolfhard, Jeremy Ray Taylor, Wyatt Oleff, Chosen Jacobs, Nicholas Hamilton and Jack Dylan Grazer\r\n\r\nDIRECTOR: Andy Muschietti\r\n\r\nWRITERS: Chase Palmer, Cary Joji Funkunaga, Gary Dauberman\r\n\r\nMPAA Rating: R\r\n\r\nGENRE: Horror/Mystery Suspense\r\n\r\nCritic’s Rating: *** stars (out of 4 stars)\r\n\r\n(c) **Frank Ochieng** 2017"/>
+
+        <View
+            android:id="@+id/line_separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_line_separator_height"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/activity_margin_top"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
