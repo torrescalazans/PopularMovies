@@ -35,6 +35,9 @@ public class NetworkManager {
 
     private static final String TAG = NetworkManager.class.getSimpleName();
 
+    private static final int CONNECTION_TIMEOUT = 3000;
+    private static final int READ_TIMEOUT = 5000;
+
     private static final String THE_MOVIE_DB_STATIC_URL = "https://api.themoviedb.org/3";
     private static final String THE_MOVIE_DB_BASE_URL = THE_MOVIE_DB_STATIC_URL;
     private static final String THE_MOVIE_DB_API_KEY = BuildConfig.THE_MOVIE_DB_API_KEY;
@@ -124,6 +127,10 @@ public class NetworkManager {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
+
+            urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+            urlConnection.setReadTimeout(READ_TIMEOUT);
+
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
