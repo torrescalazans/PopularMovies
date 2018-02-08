@@ -350,8 +350,11 @@ public class MovieDetailsActivity extends AppCompatActivity
     public void onClick(Trailer trailer) {
         Log.d(TAG, "onClick: " + trailer);
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.getKey()));
-        intent.putExtra("VIDEO_ID", trailer.getKey());
-        startActivity(intent);
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.youtube.com/watch?v=" + trailer.getKey()));
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
